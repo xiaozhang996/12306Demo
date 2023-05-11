@@ -2,8 +2,8 @@ package cn.edu.guet;
 
 public class Ticket {
     private String trainNumber;
-    private String fromStation;
-    private String toStation;
+    private String startStation;
+    private String endStation;
     private String departureTime;
     private String arrivalTime;
     private String duration;
@@ -16,20 +16,20 @@ public class Ticket {
         this.trainNumber = trainNumber;
     }
 
-    public String getFromStation() {
-        return fromStation;
+    public String getStartStation() {
+        return startStation;
     }
 
-    public void setFromStation(String fromStation) {
-        this.fromStation = fromStation;
+    public void setStartStation(String startStation) {
+        this.startStation = startStation;
     }
 
-    public String getToStation() {
-        return toStation;
+    public String getEndStation() {
+        return endStation;
     }
 
-    public void setToStation(String toStation) {
-        this.toStation = toStation;
+    public void setEndStation(String endStation) {
+        this.endStation = endStation;
     }
 
     public String getDepartureTime() {
@@ -56,3 +56,4 @@ public class Ticket {
         this.duration = duration;
     }
 }
+

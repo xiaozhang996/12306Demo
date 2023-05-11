@@ -1,12 +1,5 @@
 package cn.edu.guet;
 
-
-/**
- * @Author liwei
- * @Date 2023/5/7 10:51
- * @Version 1.0
- */
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 
@@ -38,10 +31,9 @@ public class TicketServlet extends HttpServlet {
         String departureDate=request.getParameter("departureDate");
         System.out.println("出发日期："+departureDate);
 
-        String ticketList = TicketSearch.search(startStation, endStation, departureDate);
+        List<Ticket> ticketList = TicketSearch.search(startStation, endStation, departureDate);
 
         String json=JSON.toJSONString(ticketList, SerializerFeature.PrettyFormat);
-
         response.setContentType("application/json;charset=UTF-8");
         PrintWriter out=response.getWriter();
         out.print(json);

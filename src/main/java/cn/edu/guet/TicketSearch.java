@@ -16,7 +16,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class TicketSearch {
-    public static String search(String fromStation,String toStation,String date) throws IOException {
+    public static List<Ticket> search(String fromStation,String toStation,String date) throws IOException {
         Map<String, String> nameCodeMap = new HashMap<String, String>();
         Map<String, String> codeNameMap = new HashMap<String, String>();
 
@@ -32,6 +32,7 @@ public class TicketSearch {
             nameCodeMap.put(name, code);
             codeNameMap.put(code, name);
         }
+
         OkHttpClient client = new OkHttpClient();
 
         String urlStr = "https://kyfw.12306.cn/otn/leftTicket/query?leftTicketDTO.train_date=" + date
@@ -46,43 +47,43 @@ public class TicketSearch {
         JSONObject jsonObj = JSON.parseObject(jsonStr);
         JSONArray jsonArr = (JSONArray) ((JSONObject) jsonObj.get("data")).get("result");
 
-        List<Ticket> ticketList=new ArrayList<>();//集合 容器
+        List<Ticket> ticketList=new ArrayList<>();//集合：放Ticket的容器
 
         for (Object item : jsonArr.toArray()) {
             String record = item.toString();
             String[] recordArr = record.split("\\|");
-            Ticket ticket=new Ticket();
+            Ticket ticket =new Ticket();
             ticket.setTrainNumber(recordArr[3]);
-            ticket.setFromStation(recordArr[6]);
-            ticket.setToStation(recordArr[7]);
+            ticket.setStartStation(recordArr[6]);
+            ticket.setEndStation(recordArr[7]);
             ticket.setDepartureTime(recordArr[8]);
             ticket.setArrivalTime(recordArr[9]);
             ticket.setDuration(recordArr[10]);
-
             ticketList.add(ticket);
 
-           /* System.out.println("--------------------------------------------------------");
-            System.out.print("车次: " + recordArr[3]);
-            String startStation = codeNameMap.get(recordArr[6]);
-            System.out.print("\t出发地: " + startStation);
-            String endStation = codeNameMap.get(recordArr[7]);
-            System.out.print("\t目的地: " + endStation);
-            System.out.print("\t出发时间: " + recordArr[8]);
-            System.out.print("\t到达时间: " + recordArr[9]);
-            System.out.print("\t历时: " + recordArr[10]);
-            System.out.print("\t高级软卧: " + recordArr[21]);
-            System.out.print("\t软卧: " + recordArr[23]);
-            System.out.print("\t无座: " + recordArr[26]);
-            System.out.print("\t硬卧: " + recordArr[28]);
-            System.out.print("\t硬座: " + recordArr[29]);
-            System.out.print("\t二等座: " + recordArr[30]);
-            System.out.print("\t一等座: " + recordArr[31]);
-            System.out.print("\t商务，特等座: " + recordArr[32]);
-            System.out.println("--------------------------------------------------------");*/
 
 
+
+
+//            System.out.println("--------------------------------------------------------");
+//            System.out.print("车次: " + recordArr[3]);
+//            String startStation = codeNameMap.get(recordArr[6]);
+//            System.out.print("\t出发地: " + startStation);
+//            String endStation = codeNameMap.get(recordArr[7]);
+//            System.out.print("\t目的地: " + endStation);
+//            System.out.print("\t出发时间: " + recordArr[8]);
+//            System.out.print("\t到达时间: " + recordArr[9]);
+//            System.out.print("\t历时: " + recordArr[10]);
+//            System.out.print("\t高级软卧: " + recordArr[21]);
+//            System.out.print("\t软卧: " + recordArr[23]);
+//            System.out.print("\t无座: " + recordArr[26]);
+//            System.out.print("\t硬卧: " + recordArr[28]);
+//            System.out.print("\t硬座: " + recordArr[29]);
+//            System.out.print("\t二等座: " + recordArr[30]);
+//            System.out.print("\t一等座: " + recordArr[31]);
+//            System.out.print("\t商务，特等座: " + recordArr[32]);
+//            System.out.println("--------------------------------------------------------");
         }
-
-        return JSONObject.toJSONString(ticketList);
+        return ticketList;
     }
 }
