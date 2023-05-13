@@ -76,9 +76,41 @@
         function callBack() {
             console.log("我是回调函数");
             if(request.readyState==4){
-                if(request.status==200){
+                if(request.status==200){//服务器正常响应
                     //通过request.responseText来接受服务器返回的数据
-                    console.log("服务器返回车次数据：",request.responseText);
+                    //查看服务器响应类型
+                    //需要把string转化成JavaScript的对象，请问JavaScript对象，有几种创建方式？
+                    var trainTicketData=JSON.parse(request.responseText);
+
+                    for(var i=0;i<trainTicketData.length;i++) {
+                        //每次循环都要创建1个tr，4个td，4个文本节点
+                        //td tr：元素节点 ，D2967：文本节点
+                        trainNumberTd = document.createElement("td");
+                        trainNumberTd.appendChild(document.createTextNode(trainTicketData[i].trainNumber));
+
+                        startStationTd = document.createElement("td");
+                        startStationTd.appendChild(document.createTextNode(trainTicketData[i].startStation));
+                        startStationTd.appendChild(document.createTextNode(" " + trainTicketData[i].endStation));
+
+                        arrivalTimeTd = document.createElement("td");
+                        arrivalTimeTd.appendChild(document.createTextNode(trainTicketData[i].arrivalTime));
+                        arrivalTimeTd.appendChild(document.createTextNode(" " + trainTicketData[i].departureTime));
+
+                        durationTd = document.createElement("td");
+                        durationTd.appendChild(document.createTextNode(trainTicketData[i].duration));
+
+                        trainTr=document.createElement("tr");
+                        trainTr.appendChild(trainNumberTd);
+                        trainTr.appendChild(startStationTd);
+                        trainTr.appendChild(arrivalTimeTd);
+                        trainTr.appendChild(durationTd);
+
+                        //已有table，所以只需要根据ID获取到table对象
+                        document.getElementById("train").appendChild(trainTr);
+                    }
+
+
+
                 }
             }
         }
